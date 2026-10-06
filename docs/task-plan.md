@@ -34,3 +34,13 @@ Run `yarn typecheck`, `yarn test`, `yarn build`, and a manual production smoke t
 - Focused prototype and compact UI approval replace the full multi-stage click-dummy process for this take-home, as Ahsan chose in this conversation.
 - Sledge's GitHub reviewer account is not yet known; Ahsan will grant private repository access himself.
 - Ahsan approved the focused UI direction on 2026-10-06: “Approve this direction.”
+
+## Development blank-page repair
+
+`yarn dev` starts both services, but the browser stays blank because Vite transforms the client import `./api` into `/api.ts`. The development proxy currently forwards every path beginning with `/api` to Express, so Express returns 404 for the client module before React can mount.
+
+Narrow the proxy context in `vite.config.ts` to the API namespace boundary: it must match `/api` and `/api/...`, but not `/api.ts` or another longer prefix. Export the context for a focused regression test in `tests/vite-config.test.ts`. No API, database, or UI contract changes are required.
+
+Run `yarn typecheck`, `yarn test`, `yarn build`, and `yarn format:check`. The Windows checkout uses Git's `core.autocrlf`, so set Prettier's supported `endOfLine` option to `auto`; this keeps the formatting check portable without rewriting unrelated files. Start the complete development stack and confirm that the invoice desk renders at `http://localhost:5173`, `/api.ts` loads as a Vite module, `/api/invoices` still reaches Express, and the review workflow works without application-blocking browser errors. Review the full diff against this record, fetch and merge `o/main` again, then commit and push directly to `main`.
+
+Success means the development page renders and the automated test prevents the proxy collision from returning. Roll back an uncommitted change selectively; after push, use a normal revert commit. There are no schema changes, migrations, rollout steps, security changes, or unresolved product decisions.
