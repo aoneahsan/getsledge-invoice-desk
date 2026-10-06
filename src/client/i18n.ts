@@ -1,0 +1,50 @@
+// Developer: Ahsan Mahmood | https://aoneahsan.com
+const en = {
+  brand: "Sledge",
+  workspace: "Workspace",
+  invoiceDesk: "Invoice desk",
+  financeWorkspace: "Finance workspace",
+  intro: "Review invoices and keep each decision in one place.",
+  reviewSuffix: "need your review",
+  processing: "Processing",
+  needsReview: "Needs review",
+  decided: "Approved–Rejected",
+  approved: "Approved",
+  rejected: "Rejected",
+  invoiceCount: (count: number) => `${count} invoice${count === 1 ? "" : "s"}`,
+  invoiceTotal: "Invoice total",
+  invoiceDate: "Invoice date",
+  dueDate: "Due date",
+  invoiceNumber: "Invoice number",
+  status: "Status",
+  possibleDuplicate: "Possible duplicate",
+  duplicateDescription: (vendor: string) =>
+    `This matches an earlier invoice from ${vendor}.`,
+  viewOriginal: (number: string) => `View original ${number}`,
+  approveInvoice: "Approve invoice",
+  reject: "Reject",
+  processingMessage: "This invoice is still processing.",
+  decidedMessage: "This decision is final.",
+  empty: "No invoices in this tab.",
+  selectInvoice: "Select an invoice to see its details.",
+  loading: "Loading invoices…",
+  loadError: "Could not load invoices.",
+  retry: "Try again",
+  decisionError: "Could not save this decision. Please try again.",
+  saving: "Saving…",
+  viewInvoice: (vendor: string, number: string) =>
+    `View ${vendor} invoice ${number}`,
+  invoiceLabel: (number: string) => `Invoice ${number}`,
+  navigation: "Workspace",
+  statusTabs: "Invoice status",
+  author: "Ahsan Mahmood",
+  authorInitials: "AM",
+  railFoot: "A clear view of every invoice decision.",
+  invoicePrefix: "INVOICE",
+  brandInitial: "S",
+  pageTitle: "Invoice desk · Sledge",
+} as const;
+
+export type TranslationKey = keyof typeof en;
+export const t = <Key extends TranslationKey>(key: Key): (typeof en)[Key] =>
+  en[key];
